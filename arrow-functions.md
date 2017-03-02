@@ -1,6 +1,6 @@
 #Can arrow functions replace the old functions?
 
-### Introduction of Arror function
+###Introduction of Arror function
 1. Using arrow functions can have 3 benifits:
   + **concise** than regular functions
   + they have **implicit return** which allows us to write nifty one liners
@@ -73,7 +73,7 @@
   totalBill = calculateBill(100, undefied, 0.3);
   ```
 
-### When NOT to use arrow functions
+###When NOT to use arrow functions
 1. When you want to bind "this" with the element by event
 
   ```javascript
@@ -97,10 +97,9 @@
 
   getRandomNumber(1, 2, 3); // => 1
   ```
-3. When defining methods on an object
+3. When defining methods on an object. By calling the method, 'this' becomes the object that method belongs to.
 
   ```javascript
-  //By calling the method, 'this' becomes the object that method belongs to.
   //Case 1: Object literal
   const person = {
     firstName: 'Kevin',
@@ -154,36 +153,62 @@
   };
   ```
 
-###Others
+###Exercise
+1. Tips:
   + What is the data type of `document.getElementsByTagName`? => NodeList, which is **NOT** an array
   + Get all data-* attribute by .dataset
-  + Exircise:
+2. Question:
 
-    ```javascript
-    // Select all the list items on the page and convert to array
-    // Filter for only the elements that contain the word 'flexbox'
-    // map down to a list of time strings
-    // map to an array of seconds
-    // reduce to get total
+  1. Select all the list items on the page and convert to array
+  2. Filter for only the elements that contain the word 'flexbox'
+  3. Map down to a list of time strings
+  4. Map to an array of seconds
+  5. Reduce to get total
+  ```html
+  <ul>
+    <li data-time="5:17">Flexbox Video</li>
+    <li data-time="8:22">Flexbox Video</li>
+    <li data-time="3:34">Redux Video</li>
+    <li data-time="5:23">Flexbox Video</li>
+    <li data-time="7:12">Flexbox Video</li>
+    <li data-time="7:24">Redux Video</li>
+    <li data-time="6:46">Flexbox Video</li>
+    <li data-time="4:45">Flexbox Video</li>
+    <li data-time="4:40">Flexbox Video</li>
+    <li data-time="7:58">Redux Video</li>
+    <li data-time="11:51">Flexbox Video</li>
+    <li data-time="9:13">Flexbox Video</li>
+    <li data-time="5:50">Flexbox Video</li>
+    <li data-time="5:52">Redux Video</li>
+    <li data-time="5:49">Flexbox Video</li>
+    <li data-time="8:57">Flexbox Video</li>
+    <li data-time="11:29">Flexbox Video</li>
+    <li data-time="3:07">Flexbox Video</li>
+    <li data-time="5:59">Redux Video</li>
+    <li data-time="3:31">Flexbox Video</li>
+  </ul>
+  ```
+3. Answer:
 
-    //WesBos
-    const items = Array.from(document.querySelectorAll('[data-time]'))
-      .filter(item => item.textContent.includes('Flexbox'))
-      .map(item => item.dataset.time) // data-time
-      .map(timecode => {
-        const parts = timecode.split(':').map(part => parseFloat(part));
-        return (parts[0] * 60) + parts[1];
-      })
-      .reduce((runningTotal, seconds) => runningTotal + seconds, 0);
-    
-    //Kevin
-    const fullData = Array.from(document.getElementsByTagName('li'))
-      .filter(data => data.innerText.includes('Flexbox'))
-      .map(data => data.getAttribute('data-time'))
-      .map(data => {
-        const seperate = data.split(':');
-        return seperate[0] * 60 + seperate[1] * 1;
-      })
-      .reduce((prev, curr) => prev + curr, 0);
-    ```
+  ```javascript
+  //WesBos
+  const items = Array.from(document.querySelectorAll('[data-time]'))
+    .filter(item => item.textContent.includes('Flexbox'))
+    .map(item => item.dataset.time) // data-time
+    .map(timecode => {
+      const parts = timecode.split(':').map(part => parseFloat(part));
+      return (parts[0] * 60) + parts[1];
+    })
+    .reduce((runningTotal, seconds) => runningTotal + seconds, 0);
+  
+  //Kevin
+  const fullData = Array.from(document.getElementsByTagName('li'))
+    .filter(data => data.innerText.includes('Flexbox'))
+    .map(data => data.getAttribute('data-time'))
+    .map(data => {
+      const seperate = data.split(':');
+      return seperate[0] * 60 + seperate[1] * 1;
+    })
+    .reduce((prev, curr) => prev + curr, 0);
+  ```
   
