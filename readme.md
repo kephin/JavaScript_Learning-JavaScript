@@ -5,3 +5,4 @@
 3. [Template literals](./template-literals.md)
 4. [Destructuring](./destructuring.md)
 5. [Iterables & Looping](./iterables-looping.md)
+6. [Spread operators & Rest parameters](./spread-operators-and-rest-parameters.md)
