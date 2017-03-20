@@ -1,9 +1,9 @@
-#What destructing brings us convenience?
+# What destructing brings us convenience?
 
-###Basic of Destructing
+### Basic of Destructing
 :fire: Destructing allows us to extract multiple data from arrays, objects and maps, sets into our own variables at a time.
 
-1. Destructing objects
++ Destructing objects
 
   ```javascript
   const kephin = {
@@ -34,7 +34,8 @@
   const {w: width = 200, h: height = 100} = {w: 500};
   console.log(width, height) // => 500, 100
   ```
-2. Destructing arrays
+
++ Destructing arrays
 
   ```javascript
   const info = ['Kevin', 179, 70];
@@ -42,7 +43,8 @@
   ```
 
 ### Tricks using destructing
-3. Swapping values
+
++ Swapping values
 
   ```javascript
   let frontend = 'Kevin';
@@ -50,7 +52,8 @@
 
   [frontend, backend] = [backend, frontend];
   ```
-4. Destructing functions - multiple returns and named defaults
+
++ Destructing functions - multiple returns and named defaults
 
   ```javascript
   function convertCurrency(amount) {
@@ -74,3 +77,4 @@
   }
   console.log(tipCalc({ tip: 0.20, total: 200 })); // => 266
   ```
+  

@@ -1,7 +1,8 @@
-#The magic of Spread Operators and Rest Parameters
+# The magic of Spread Operators and Rest Parameters
 
-###What is spread operators for
-1. :fire: Spread operator(only for **iterables**): allows an expression to be expanded in places where **multiple arguments**(for function calls) or **multiple elements**(for array literals) or **multiple variables**(for destructuring assignment) are expected
+### What is spread operators for
+
++ :fire: Spread operator(only for **iterables**): allows an expression to be expanded in places where **multiple arguments**(for function calls) or **multiple elements**(for array literals) or **multiple variables**(for destructuring assignment) are expected
 
   ```javascript
   //multiple arguments (for function calls)
@@ -20,13 +21,15 @@
   //better push
   const arr_1 = arr_2.push(...arr_1);
   ```
-2. Turn a nodelist into an array, just like Array.from()
+
++ Turn a nodelist into an array, just like Array.from()
 
   ```javascript
   const people = Array.from(document.querySelectorAll('.people p'));
   const people = [...document.querySelectorAll('.people p')];
   ```
-3. Examples
+
++ Examples
 
   ```html
   <body>
@@ -41,8 +44,9 @@
   </body>
   ```
 
-###And rest parameters
-1. :fire: Rest parameters allows us to represent an indefinite number of arguments as an array.
+### And rest parameters
+
++ :fire: Rest parameters allows us to represent an indefinite number of arguments as an array.
 
   It creates an actual array from the arguments passed to a function, so we can use methods like reduce() or sort() on it. That is to say, it turns a **comma separated list** into an **array**.
 

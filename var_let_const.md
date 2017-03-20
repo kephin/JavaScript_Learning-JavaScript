@@ -1,14 +1,16 @@
-#What is the difference between var, let and const?
+# What is the difference between var, let and const?
 
-###Problems using var
-1. You can use **var** to declare the variable with the same name **again** without errors, which will lead to bugs easily
+### Problems using var
+
++ You can use **var** to declare the variable with the same name **again** without errors, which will lead to bugs easily
 
   ```javascript
   var numberOfPens = 1;
   var numberOfPens = 2; // no errors..
   ```
-2. var is **functional scoped**
-3. Using var will leak the specific variable scoped to the window(global scope) while in **if/for...(non-function)** block
+
++ var is **functional scoped**
++ Using var will leak the specific variable scoped to the window(global scope) while in **if/for...(non-function)** block
 
   ```javascript
   for(var i = 1; i < 10; i++){
@@ -16,8 +18,9 @@
   }
   console.log(i); // => 10
   ```
-4. [IIFE(Immediately-Invoked-Function-Expression)](http://benalman.com/news/2010/11/immediately-invoked-function-expression/) creates a scope where nothing is going to leak into the global scope
-5. Tempero Dead Zone: variable hoisting
+
++ [IIFE(Immediately-Invoked-Function-Expression)](http://benalman.com/news/2010/11/immediately-invoked-function-expression/) creates a scope where nothing is going to leak into the global scope
++ Tempero Dead Zone: variable hoisting
 
   ```javascript
   console.log(numberOfVote); // undefied
@@ -33,14 +36,16 @@
   let numberOfVote = 3000;
   ```
 
-###let and const
-1. They can only be declared **once**
+### let and const
+
++ They can only be declared **once**
 
   ```javascript
   let numberOfPens = 1;
   let numberOfPens = 2; // Uncaught SyntaxError: Identifier 'numberOfPens' has already been declared
   ```
-2. let and const are **block** scoped
+
++ let and const are **block** scoped
 
   ```javascript
   {
@@ -48,8 +53,9 @@
   }
   console.log(user); // Uncaught ReferenceError: user is not defined
   ```
-3. A const variable cannot be updated
-4. But the **property** of the const variable(which is an object) **can** be updated. But still, the entire object is immutable
+
++ A const variable cannot be updated
++ But the **property** of the const variable(which is an object) **can** be updated. But still, the entire object is immutable
 
   ```javascript
   const person = {
@@ -63,12 +69,14 @@
     glasses: true, // Uncaught TypeError: Assignment to constant variable
   }
   ```
-5. You can use **Object.freeze()** to make even the property of an object immutable
+
++ You can use **Object.freeze()** to make even the property of an object immutable
 
   ```javascript
   const kevin = Object.freeze(person);
   ```
-6. Examples in for-loop
+
++ Examples in for-loop
 
   ```javascript
   // using var, 'i' will be overwritten in every loop
@@ -84,7 +92,8 @@
     }, 1000);
   }
   ```
-7. Overall suggestions:
+
++ Overall suggestions:
   1. Use **const** by default
   2. Only use **let** if rebinding is needed
   3. **var** should NOT be uesd in ES6

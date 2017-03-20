@@ -1,11 +1,14 @@
-#Can arrow functions replace the old functions?
+# Can arrow functions replace the old functions?
 
-###Introduction of Arror function
-1. Using arrow functions can have 3 benifits:
-  + **concise** than regular functions
-  + they have **implicit return** which allows us to write nifty one liners
-  + it does NOT re-bind the value of **this**
-2. How to use arrow functions
+### Introduction of Arror function
+
++ Using arrow functions can have 3 benifits:
+
+  1. **concise** than regular functions
+  2. they have **implicit return** which allows us to write nifty one liners
+  3. it does NOT re-bind the value of **this**
+
++ How to use arrow functions
 
   ```javascript
   const firstNames = ['Kevin', 'Jessie', 'Kiles'];
@@ -31,13 +34,15 @@
   //or using underscore
   const fullNames_5 = firstNames.map(_ => `Kevin Hsiao` );
   ```
-3. Arrow functions are anonymous, you can however put them in a variable
+
++ Arrow functions are anonymous, you can however put them in a variable
 
   ```javascript
   const sayMyName = (name) => {alert(`Hello, ${name}!`)};
   sayMyName('Kevin');
   ```
-4. Implicit return with an object literal, we put a parentheses around the object
+
++ Implicit return with an object literal, we put a parentheses around the object
 
   ```javascript
   const race = 'tennis';
@@ -45,13 +50,15 @@
   const win = winners.map((winner, i) => ({name: winner, race, place: i + 1}));
   console.table(win);
   ```
-5. Filter method
+
++ Filter method
 
   ```javascript
   const ages = [19, 39, 40, 20, 30, 66, 22, 13, 9, 79];
   const young = ages.filter(age => age <= 18);
   ```
-6. :fire: In arrow functions, 'this' does not get rebonded; Instead, 'this' inherits the value of 'this' from the parents. So we don't have to worried about the scope changing.
+
++ :fire: In arrow functions, 'this' does not get rebonded; Instead, 'this' inherits the value of 'this' from the parents. So we don't have to worried about the scope changing.
 
   ```javascript
   const box = document.querySelector('.box');
@@ -62,7 +69,8 @@
     }, 500);
   });
   ```
-7. Default functions argument
+
++ Default functions argument
 
   ```javascript
   function calculateBill(total, tax = 0.13, tip = 0.15){
@@ -73,8 +81,9 @@
   totalBill = calculateBill(100, undefied, 0.3);
   ```
 
-###When NOT to use arrow functions
-1. When you want to bind "this" with the element by event
+### When NOT to use arrow functions
+
++ When you want to bind "this" with the element by event
 
   ```javascript
   button.addEventListener('click', () => {
@@ -84,7 +93,8 @@
     console.log(this === button); // => true
   });
   ```
-2. When you want to use argument
+
++ When you want to use argument
 
   ```javascript
   const getRandomNumber_arrow = () => {
@@ -97,7 +107,8 @@
 
   getRandomNumber(1, 2, 3); // => 1
   ```
-3. When defining methods on an object. By calling the method, 'this' becomes the object that method belongs to.
+
++ When defining methods on an object. By calling the method, 'this' becomes the object that method belongs to.
 
   ```javascript
   //Case 1: Object literal
@@ -141,7 +152,8 @@
   const cat = new MyCat('Mew');
   cat.sayCatName(); // => 'Mew'
   ```
-4. Invoking constructors
+
++ Invoking constructors
 
   ```javascript
   const Message = (text) => {
@@ -153,17 +165,21 @@
   };
   ```
 
-###Exercise
-1. Tips:
-  + What is the data type of `document.getElementsByTagName`? => NodeList, which is **NOT** an array
-  + Get all data-* attribute by .dataset
-2. Question:
+### Exercise
+
++ Tips:
+
+  1. What is the data type of `document.getElementsByTagName`? => NodeList, which is **NOT** an array
+  2. Get all data-* attribute by .dataset
+
++ Question:
 
   1. Select all the list items on the page and convert to array
   2. Filter for only the elements that contain the word 'flexbox'
   3. Map down to a list of time strings
   4. Map to an array of seconds
   5. Reduce to get total
+
   ```html
   <ul>
     <li data-time="5:17">Flexbox Video</li>
@@ -177,18 +193,10 @@
     <li data-time="4:40">Flexbox Video</li>
     <li data-time="7:58">Redux Video</li>
     <li data-time="11:51">Flexbox Video</li>
-    <li data-time="9:13">Flexbox Video</li>
-    <li data-time="5:50">Flexbox Video</li>
-    <li data-time="5:52">Redux Video</li>
-    <li data-time="5:49">Flexbox Video</li>
-    <li data-time="8:57">Flexbox Video</li>
-    <li data-time="11:29">Flexbox Video</li>
-    <li data-time="3:07">Flexbox Video</li>
-    <li data-time="5:59">Redux Video</li>
-    <li data-time="3:31">Flexbox Video</li>
   </ul>
   ```
-3. Answer:
+
++ Answer:
 
   ```javascript
   //WesBos
@@ -211,4 +219,5 @@
     })
     .reduce((prev, curr) => prev + curr, 0);
   ```
+
   

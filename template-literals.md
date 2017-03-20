@@ -1,7 +1,8 @@
-#Replacement for buggy string concatenation!
+# Replacement for buggy string concatenation!
 
-###How to use template literals
-1. Concatenation
+### How to use template literals
+
++ Concatenation
 
   ```javascript
   let person = {
@@ -11,7 +12,8 @@
   };
   console.log(`${person.name} is a ${person.job} with ${person.height / 2.45} inches tall.`);
   ```
-2. Multi-line
+
++ Multi-line
 
   ```javascript
   const markup = `
@@ -21,7 +23,8 @@
     </div>
   `;
   ```
-3. You can put a template literal inside another template literals
+
++ You can put a template literal inside another template literals
 
   ```javascript
   //Loop in the template literals
@@ -39,8 +42,9 @@
   document.body.innerHTML = markup;
   ```
 
-###Put logic inside template literals
-1. Put **if statement** inside template literals
+### Put logic inside template literals
+
++ Put **if statement** inside template literals
 
   ```javascript
   const song = {
@@ -58,7 +62,8 @@
   </div>
   `;
   ```
-2. Create a render function
+
++ Create a render function
 
   ```javascript
   const beer = {
@@ -86,8 +91,9 @@
   document.body.innerHTML = markup;
   ```
 
-###Advanced uses - Tagged
-1. Tagged template literals
+### Advanced uses - Tagged
+
++ Tagged template literals
 
   ```javascript
   function highlight(strings, ...values){
@@ -136,14 +142,13 @@
   p.innerHTML = sentence;
   bio.appendChild(p);
   ```
-2. Santizing user data with tagged templates
+
++ Santizing user data with tagged templates
 
   ```html
   <!-- Using dompurify to santize -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/0.8.2/purify.min.js"></script>
-  ```
-
-  ```javascript
+  <script>
   function sanitize(strings, ...values) {
     const dirty = strings.reduce((prev, next, i) => `${prev}${next}${values[i] || ''}`, '');
     return DOMPurify.sanitize(dirty);
@@ -159,4 +164,6 @@
 
   const bio = document.querySelector('.bio');
   bio.innerHTML = html;
+  </script>
   ```
+  
