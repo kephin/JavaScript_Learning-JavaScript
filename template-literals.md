@@ -1,8 +1,8 @@
-# Replacement for buggy string concatenation!
+# Replacement for buggy string concatenation
 
-### How to use template literals
+### How to use template literals?
 
-Concatenation
+Concatenation: `${}`
 
 ```javascript
 let person = {
@@ -13,7 +13,7 @@ let person = {
 console.log(`${person.name} is a ${person.job} with ${person.height / 2.45} inches tall.`);
 ```
 
-Multi-line
+Able to be Multi-line
 
 ```javascript
 const markup = `
@@ -34,9 +34,10 @@ const dogs = [
   { name: 'Sunny', age: 1 }
 ];
 
-<content></content>st markup = `
+const markup = `
 <ul class="dogs">
-  ${dogs.map(dog => `<li>${dog.name} is ${dog.age * 7} years old.</li>`).join('')}
+  ${ dogs.map(dog => `<li>${dog.name} is ${dog.age * 7} years old.</li>`)
+         .join('') }
 </ul>
 `;
 document.body.innerHTML = markup;
@@ -69,16 +70,15 @@ Create a render function
 const beer = {
   name: 'Belgian Wit',
   brewery: 'Steam Whistle Brewery',
-  keywords: ['pale', 'cloudy', 'spiced', 'crisp']
+  keywords: ['pale', 'cloudy', 'spiced', 'crisp'],
 };
 
-const renderKeywords => (keywords) {
-  return `
+const renderKeywords = keywords => `
   <ul>
-    ${keywords.map(keyword => `<li>${keyword}</li>`).join('')}
+  ${keywords.map(keyword => `<li>${keyword}</li>`)
+            .join('')}
   </ul>
-  `;
-};
+`;
 
 const markup = `
   <div class="beer">
@@ -87,7 +87,6 @@ const markup = `
     ${renderKeywords(beer.keywords)}
   </div>
 `;
-
 document.body.innerHTML = markup;
 ```
 
