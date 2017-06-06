@@ -79,7 +79,7 @@ You can use **Object.freeze()** to make even the property of an object immutable
 const kevin = Object.freeze(person);
 ```
 
-Examples in for-loop.
+Difference in for-loop.
 
 ```javascript
 // using var, 'i' will be overwritten in every loop
@@ -96,8 +96,7 @@ for(let i = 1; i < 10; i++){
 }
 ```
 
-Overall suggestions:
-
-1. Use **const** by default
-2. Only use **let** if rebinding is needed
-3. **var** should NOT be uesd in ES6
+>Overall suggestions:
+>1. Use **const** by default
+>2. Only use **let** if rebinding is needed
+>3. **var** should **NOT** be uesd in ES6
