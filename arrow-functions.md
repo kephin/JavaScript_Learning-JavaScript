@@ -68,7 +68,7 @@ totalBill = calculateBill(100, undefied, 0.3);
 
 ### When NOT to use arrow functions?
 
-- When you want to bind **this** with the element by event
+1. When you want to bind **this** with the element by event
 
   ```javascript
   button.addEventListener('click', () => {
@@ -79,7 +79,7 @@ totalBill = calculateBill(100, undefied, 0.3);
   });
   ```
 
-- When defining a method on an object. By calling the method, **this** becomes the object that method belongs to.
+2. When defining a method on an object. By calling the method, **this** becomes the object that method belongs to.
 
   ```javascript
   //Case 1: Object literal
@@ -122,7 +122,7 @@ totalBill = calculateBill(100, undefied, 0.3);
   };
   ```
 
-- When you want to use arguments
+3. When you want to use arguments
 
   ```javascript
   const getRandomNumber_arrow = () => {
@@ -136,17 +136,17 @@ totalBill = calculateBill(100, undefied, 0.3);
   getRandomNumber(1, 2, 3); // => 1
   ```
 
-Invoking constructors
+4. Invoking constructors
 
-```javascript
-const Message = (text) => {
-  console.log(this); // => undefined
-};
-const Message = function(text) {
-  console.log(this); // => object
-  console.log(this instanceof Message); // => true
-};
-```
+  ```javascript
+  const Message = (text) => {
+    console.log(this); // => undefined
+  };
+  const Message = function(text) {
+    console.log(this); // => object
+    console.log(this instanceof Message); // => true
+  };
+  ```
 
 ### Exercise
 
