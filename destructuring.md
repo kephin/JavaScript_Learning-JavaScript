@@ -1,10 +1,24 @@
 # What destructing brings us convenience?
 
-### Basic of Destructing
-
 :fire: Destructing allows us to extract multiple data from arrays, objects and maps, sets into our own variables at a time.
 
-Destructing objects
+### Array Destructing
+
+```javascript
+const [a, b, c] = ['hello', 'world', 'I am kephin'];
+
+// default values
+const [a=1, b=2, c=3] = [1, , 3];
+
+// swapping values
+[a, b] = [b, a];
+
+// ignoring some returned values
+const getNumbers = () => [50, 100, 150, 200];
+const [a, , b, c] = getNumbers();  // a -> 50, b -> 150, c -> 200
+```
+
+### Object Destructing
 
 ```javascript
 const kephin = {
@@ -20,41 +34,25 @@ const kephin = {
     }
   }
 };
-//You can rename from the original object properties
-const {github: gh, linkedIn: li} = kephin.links.career;
-console.log(gh, li); // => https://github.com/kephin, https://www.linkedin.com/kevinhsaio
 
-//Default settings
-const settings = {
-  width: 400,
-  height: 300
-};
-const {width = 200, height = 200, color = 'blue', fontSize = 24} = settings;
+const { github, linkedIn } = kephin.links.career;
+
+// you can rename from the original object properties
+const { github: gh, linkedIn: li } = kephin.links.career;
+
+// assignment without declaration should braces around the statement
+let a, b;
+({ a, b } = { a: 1, b: 2 });
+
+// default values
+var {a = 10, b = 5} = { a: 3 }; // a -> 3, b -> 5
 
 //What is this?
 const {w: width = 200, h: height = 100} = {w: 500};
 console.log(width, height) // => 500, 100
 ```
 
-Destructing arrays
-
-```javascript
-const info = ['Kevin', 179, 70];
-const [name, height, weight] = info;
-```
-
-### Tricks using destructing
-
-Swapping values
-
-```javascript
-let frontend = 'Kevin';
-let backend = 'Sean';
-
-[frontend, backend] = [backend, frontend];
-```
-
-Destructing functions - multiple returns and named defaults
+Exercise: Destructing functions - multiple returns and named defaults
 
 ```javascript
 function convertCurrency(amount) {
@@ -69,13 +67,13 @@ function convertCurrency(amount) {
 const hundo = convertCurrency(100);
 console.log(hundo.USD);
 // Multiple returns
-const {USD, GPB, AUD, MEX} = convertCurrency(100);
-console.log(USD); // => 76
+const { USD, GPB, AUD, MEX } = convertCurrency(100);
+console.log(USD); // -> 76
 
 //You can pass an object to an function, so that the order of the parameters is non-sensitive.
 function tipCalc({ total = 100, tip = 0.15, tax = 0.13 } = {}) {
   return total + (tip * total) + (tax * total);
 }
-console.log(tipCalc({ tip: 0.20, total: 200 })); // => 266
+console.log(tipCalc({ tip: 0.20, total: 200 })); // -> 266
+console.log(tipCalc()); // -> 128
 ```
-  
