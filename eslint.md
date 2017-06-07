@@ -11,8 +11,12 @@ $ npm install eslint  # locally
 
 Creating .eslintrc file for settings globally or locally
 
-1. locally(by project) => in your project's root patch
-2. globally => Linux or Mac: ~/.eslintrc; Windows: C:\Users\username\.eslintrc
+1. locally: in your project's root path
+2. globally:
+
+||Linux / OSX|Windows|
+|---|---|---|
+|path|~/.eslintrc|C:\Users\KevinHsiao\\.eslintrc|
 
 Rules: 0 => off, 1 => warning, 2 => error
 
@@ -58,49 +62,52 @@ Array.prototype.includes = function(){
 /* eslint-enable no-extend-native */
 
 /* eslint-disable */
-// A block of code
+
+  // A block of code
+
 /* eslint-enable */
 ```
 
 More plugins infos: [Awesome ESLint](https://github.com/dustinspecker/awesome-eslint)
 
-### Packages
+### More packages
 
-1. Airbnb settings
+Airbnb settings
 
-  ```shell
-  # globally
-  $ sudo npm install -g eslint-config-airbnb eslint-plugin-jsx-a11y eslint-plugin-import eslint-plugin-react
-  ```
+```shell
+# globally
+$ sudo npm install -g eslint-config-airbnb eslint-plugin-jsx-a11y eslint-plugin-import eslint-plugin-react
+```
 
-2. ESLint code that are in [.html](https://github.com/BenoitZugmeyer/eslint-plugin-html) or [.md](https://github.com/eslint/eslint-plugin-markdown)
+ESLint code that are in [.html](https://github.com/BenoitZugmeyer/eslint-plugin-html) or [.md](https://github.com/eslint/eslint-plugin-markdown)
 
-  ```shell
-  $ sudo npm install -g eslint-plugin-html
-  $ sudo npm install -g eslint-plugin-markdown
-  ```
+```shell
+$ sudo npm install -g eslint-plugin-html
+$ sudo npm install -g eslint-plugin-markdown
+```
 
-  In .eslintrc file
+In .eslintrc file
 
-  ```json
-  {
-    "env":{
-    },
-    "extends":"",
-    "rules":{
+```json
+{
+  "env":{
 
-    },
-    "plugins": ["html", "markdown"]
-  }
-  ```
+  },
+  "extends":"",
+  "rules":{
 
-  `$ eslint YOURFILE.js --fix` **only** works on pure javascript files, NOT on .html or .md files.
+  },
+  "plugins": ["html", "markdown"]
+}
+```
+
+`$ eslint YOURFILE.js --fix` **only** works on pure javascript files, NOT on .html or .md files.
 
 ### Integration with editors
 
-Sublime text: Download SublimeLinter, SublimeLinter-contrib-eslint
+Sublime text: SublimeLinter, SublimeLinter-contrib-eslint
 
-ATOM: Download linter, linter-eslint
+ATOM: linter, linter-eslint
 
 ### ESLint with git
 
@@ -132,5 +139,3 @@ fi
 ```
 
 Hooks in git are essentially code that run before things happend. You can stop those things from happening unless it passes.
-
-
