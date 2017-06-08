@@ -2,6 +2,7 @@
 
 |#|Conent|
 |---|---|
+|0.|[The principles of OOP JavaScript](./The_Principles_of_Object-Oriented_JavaScript.md)|
 |1.|[var, let and const](./var_let_const.md)|
 |2.|[Arrow functions](./arrow-functions.md)|
 |3.|[Template literals](./template-literals.md)|
