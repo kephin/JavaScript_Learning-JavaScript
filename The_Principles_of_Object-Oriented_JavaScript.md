@@ -200,6 +200,15 @@ If an object is frozen, we can't add or remove properties, we can't change prope
 const person = { name: 'kevin' };
 Object.freeze(person);
 
+delete person.name; // not working
+Object.defineProperty(person, 'name', {
+  value: 'hello', // not working
+  enumerable: false, // not working
+  configurable: false, // not working
+  writable: false, // NOT working
+});
+person.name = 'hello'; // NOT working
+
 console.log(Object.isExtensible(person)); // -> false
 console.log(Object.isSealed(person)); // -> true
 console.log(Object.isFrozen(person)); // -> true
