@@ -11,7 +11,126 @@
 
 ### Primitive and Reference Types
 
+**Primitive types**: directly contains the primitive value, **rather than a pointer to an object**. If you set one variable equal to another, each variable get its own copy of the data. Because each variable uses it own storage space, changes to one variable do not affect on the other.
 
+Boolean, Number, String, Null, Undefined
+
+```javascript
+let person; // assign undefined automatically
+console.log(typeof person); // -> 'undefined'
+
+// But!
+console.log(typeof null); // -> 'object'
+// So the best way to identify if the value is null
+console.log(value === null); // true or false
+
+// changing one variable does not affect the other one
+const number_1 = 1;
+const number_2 = number_1;
+number_1 = 2;
+console.log(number_2); // -> still 1
+```
+
+**Reference types**: when you assign an object to a value, you're actually assigning a pointer.
+
+The best way to dereference objects is to set the object variable to **null**.
+
+```javascript
+const objct = new Object();
+// do something
+object = null; // dereference
+
+// both object_1 and object_2 point to the same object
+const object_1 = new Object();
+const object_2 = object_1;
+object_1.sayHi = 'Hello!';
+console.log(object_2.sayHi); // -> 'Hello!'
+```
+
+>We can modify objects whenever you want, even though we did not define them in the first place.
+
+**Built-in objects**: Array, Date, Error, Function, Object, RegExp
+
+  ```javascript
+  const now = new Date();
+  const error = new Error('Something bad happened');
+  ```
+
+- Object and array literals
+
+  ```javascript
+  const person = new Object();
+  person.name = 'kevin';
+  person['passport number'] = 'A102284572';
+  // is the same as
+  const person = { name: 'kevin', age: 30, 'passport number': 'A102284572' };
+
+  const colors = new Array('red', 'blue', 'yellow');
+  // is the same as
+  const colors = ['red', 'blue', 'yellow'];
+  ```
+
+- Function literals
+
+  ```javascript
+  const func = new Function('value', 'return value;');
+  // is the same as
+  function func(value) { return value; };
+  const func = value => value;
+  ```
+
+- Regular expression literals: no need to worry about escaping characters within strings.
+
+  ```javascript
+  const re = new RegExp('\\d+');
+  // is the same as
+  const re = /\d+/g;
+  ```
+
+Dot notation and bracket notation: Bracket notation is very useful when you do dynamically decide which property to access.
+
+Identifying reference types
+
+```javascript
+const arr = [];
+const obj = {};
+const func = value => value;
+
+// typeof always returns 'object'
+console.log(typeof arr); // -> 'object'
+console.log(typeof obj); // -> 'object'
+console.log(typeof func); // -> 'object'
+
+// use instanceof
+console.log(arr instanceof Array); // -> true
+console.log(arr instanceof Object); // -> true
+console.log(obj instanceof Object); // -> true
+console.log(func instanceof Function); // -> true
+console.log(func instanceof Object); // -> true
+```
+
+The best way to identify array
+
+```javascript
+console.log(Array.isArray(arr)); // -> true
+```
+
+:cyclone: Primitive wrapper types: String, Numbers, Boolean
+
+The primitive wrapper types are reference types that are automatically created behind the scenes whenever strings, numbers or booleans are read. The reason why primitive wrapper types existed is the uses of methods in primitive types.
+
+```javascript
+const name = 'kevin';
+const firstChar = name.charAt(0);
+console.log(firstChar); // -> 'k'
+
+// this is what happens behind the scenes
+const name = 'kevin';
+//const temp = new String(name);
+const firstChar = temp.charAt(0);
+//temp = null;
+console.log(firstChar); // -> 'k'
+```
 
 ### Functions
 
