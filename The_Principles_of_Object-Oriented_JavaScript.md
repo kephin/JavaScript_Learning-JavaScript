@@ -134,7 +134,91 @@ console.log(firstChar); // -> 'k'
 
 ### Functions
 
+**typeof** operator will return 'function' for any object with [[Call]] property.
 
+#### Declaration v.s Expression
+
+```javascript
+// declaration (will hoist)
+function add(num1, num2) {
+  return num1 + num2;
+}
+// expression (will NOT hoist)
+const minus = function(num1, num2) {
+  return num1 - num2;
+};
+const add = (num1, num2) => num1 + num2;
+```
+
+#### Functions as variables
+
+#### Parameters
+
+You can pass any number of parameters to any function without causing an error. That's because function parameters are actually stored as an *array-like* structure called **arguments**.
+
+But ES6 **rest** syntax is replacing arguments. You can even use *arguments* with arrow function.
+
+```javascript
+// arguments
+function sum() {
+  var result = 0;
+  for(var index = 0; index < arguments.length; index++){
+    result += arguments[index];
+  }
+  return result;
+}
+
+// ES6 rest
+const sum = (...nums) => nums.reduce((prev, acc) => prev + acc);
+```
+
+#### Overloading
+
+JavaScript doesn't have overloading because it can accept any number of parameters and the types of parameters a function takes are not specified at all.
+
+However, we can mimic it function overloading by `typeof` and `instanceof`operator or `arguments[] === 1`.
+
+```javascript
+function cheers(message) {
+  if( typeof message === 'undefined') console.log('Hello!');
+  else{
+    console.log(message);
+  }
+}
+```
+
+#### this
+
+The main reason to use **this** when defining object is to eliminate tight coupling. **this** represents the calling object for the function.
+
+#### Changing this
+
+1. **call** method: it will executes the function with a particular **this** value and with specific parameters.
+
+2. **apply** method: it is exactly the same as call method except that it accept only two parameters: **this** and an array or array-like object of parameters to pass to the function.
+
+3. **bind** method: it only bind a particular **this** but do not execute it. And we can also pass in any parameters later.
+
+```javascript
+function cheers(height, weight){
+  const BMI = Math.round(weight / (height / 100) ** 2);
+  console.log(`${this.name}: My BMI is ${BMI}`)
+}
+const person_1 = { name: 'Kevin' };
+const person_2 = { name: 'John' };
+
+// call
+cheers.call(person_1, 178, 70); // -> Kevin: My BMI is 22
+cheers.call(person_2, 175, 72); // -> John: My BMI is 24
+// apply
+cheers.apply(person_1, [178, 70]); // -> Kevin: My BMI is 22
+cheers.apply(person_2, [175, 72]); // -> John: My BMI is 24
+// bind
+const cheersPerson_1 = cheers.bind(person_1);
+cheersPerson_1(178, 70); // -> Kevin: My BMI is 22
+const cheersPerson_2 = cheers.bind(person_2, 175, 72);
+cheersPerson_2(); // -> John: My BMI is 24
+```
 
 ### Understanding Objects
 
