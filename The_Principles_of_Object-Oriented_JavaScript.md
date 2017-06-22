@@ -279,6 +279,7 @@ const person = {
 There are two property attributes shared between data and accessor attributes: **enumerable** and **configurable**(they are both set to **true** by default when you declare on an object).
 
 enumerable: can be iterate in for...in loop or not
+
 configurable: the ability to **delete property** or **change property attributes**(except writable!)
 
 We can change property attributes by `Object.defineProperty()` or `Object.defineProperties()`. Note that if the property attribute is set to be non-configurable(configurable: false), then effectively this property is locked down. You can no longer change it back again!
@@ -419,7 +420,74 @@ console.log(Object.isFrozen(person)); // -> true
 
 ### Constructors and Prototypes
 
+#### Constructors
 
+A constructor is simply a function that is used with a key word, **new**, to create an object. The advantage of constructors is that objects created with the same constructor contain the same properties and methods.
+
+The **this** object is automatically created by **new** when we call the constructor.
+
+Make sure to always call constructor with **new**, otherwise, we risk changing the global object instead of the newly created object.
+
+Actually, an error will occur if we call a constructor with **this** in strict mode without using "new". Because strict mode doesn't assign *this* to the global object, which means **this** remains *undefined*. And an error occurs when we attempt to create a property on undefined.
+
+```javascript
+// define a constructor (no difference from other normal functions)
+function Person(name){
+  this.name = name;
+}
+
+// now, kevin is the instance of new Person type
+const kevin = new Person('Kevin');
+console.log(kevin instanceof Person); // -> true
+
+// missing "new"
+const john = Person('John');
+// name property will be in the global object
+console.log(name); // -> "John"
+```
+
+>constructors alone don't eliminate code redundancy. It would be more efficient if all of the instances shared the same method.
+
+#### Prototypes
+
+Prototype is shared among all of the object instances, and those instances can access properties of the prototype.
+
+```javascript
+const person = { name: 'kevin' };
+
+console.log(name in person); // -> true
+console.log(person.hasOwnProperty('name')); // -> true
+console.log('hasOwnProperty' in person); // -> true
+console.log(person.hasOwnProperty('hasOwnProperty')); // -> false
+console.log(Object.prototype.hasOwnProperty('hasOwnProperty')); // -> true
+```
+
+We can determine whether or not a property is on the prototype by using:
+
+```javascript
+const hasPrototypeProperty = (object, name) => {
+  return name in object && !object.hasOwnProperty(name);
+};
+```
+
+
+#### Using prototype with constructors
+
+```javascript
+function Person(name){
+  this.name = name;
+}
+Person.prototype.sayName = function(){
+  console.log(this.name);
+}
+
+const staff = new Person('john');
+const student = new Person('kevin');
+staff.sayName(); // -> 'john'
+student.sayName(); // -> 'kevin'
+```
+
+Be careful when using reference values. Because those values are shared across instances, we don't want one instance be able to change values in other instances.
 
 ### Inheritance
 
