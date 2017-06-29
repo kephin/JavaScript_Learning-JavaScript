@@ -200,7 +200,7 @@ The main reason to use **this** when defining object is to eliminate tight coupl
 3. **bind** method: it only bind a particular **this** but do not execute it. And we can also pass in any parameters later.
 
 ```javascript
-function cheers(height, weight){
+function cheers(height, weight) {
   const BMI = Math.round(weight / (height / 100) ** 2);
   console.log(`${this.name}: My BMI is ${BMI}`)
 }
@@ -432,7 +432,7 @@ Actually, an error will occur if we call a constructor with **this** in strict m
 
 ```javascript
 // define a constructor (no difference from other normal functions)
-function Person(name){
+function Person(name) {
   this.name = name;
 }
 
@@ -468,16 +468,57 @@ We can determine whether or not a property is on the prototype by using:
 const hasPrototypeProperty = (object, name) => {
   return name in object && !object.hasOwnProperty(name);
 };
+console.log(hasPrototypeProperty(person, 'name')); // -> false
+console.log(hasPrototypeProperty(person, 'hasOwnProperty')); // -> true
 ```
 
+#### The [[Prototype]] Property
+
+An instance keeps track of its prototype through an internal property called [[Prototype]]. This property is a pointer back to the prototype object that the instance is using. The use of [[Prototype]] property lets multiple instances of an object type refer to the same prototype, which can reduce code duplication.
+
+```javascript
+const Person = function(name) {
+  this.name = name
+};
+const kevin = new Person('kevin');
+
+Object.getPrototypeOf(kevin) === Person.prototype; // -> true
+// using object.__proto__
+kevin.__proto__ === Person.prototype; // -> true
+kevin.__proto__ === Object.getPrototypeOf(kevin); // -> true
+
+Object.getPrototypeOf(kevin) === Object.prototype; // -> false
+kevin.__proto__ === Object.prototype; // -> false
+
+Person.prototype.isPrototypeOf(kevin); // -> true
+```
+
+:boom: The own property **shadows** the prototype property, so the prototype property of the same name is no longer used.
+:exclamation: You cannot assign a value to a prototype property from an instance. You just **shadows** it.
+
+```javascript
+const object = {};
+console.log(object.toString()); // '[object object]'
+
+object.toString = () => '[object Custom]';
+console.log(object.toString()); // '[object Custom]'
+
+delete object.toString;
+console.log(object.toString()); // '[object object]'
+// delete only works on own properties
+delete object.toString;
+console.log(object.toString()); // '[object object]'
+```
 
 #### Using prototype with constructors
 
+The shared nature of prototype makes them ideal for defining methods once for all objects of a given type.
+
 ```javascript
-function Person(name){
+function Person(name) {
   this.name = name;
 }
-Person.prototype.sayName = function(){
+Person.prototype.sayName = function() {
   console.log(this.name);
 }
 
@@ -487,10 +528,84 @@ staff.sayName(); // -> 'john'
 student.sayName(); // -> 'kevin'
 ```
 
-Be careful when using reference values. Because those values are shared across instances, we don't want one instance be able to change values in other instances.
+We can also store other types of data on the prototype. But be careful when using reference values. Because those values are shared across instances, we don't want one instance be able to change values in other instances.
+
+```javascript
+Person.prototype.favorites = [];
+
+const kevin = new Person('kevin');
+const john = new Person('john');
+kevin.favorites.push('JavaScript');
+john.favorites.push('Ruby');
+
+console.log(kevin.favorites); // -> ['JavaScript', 'Ruby']
+```
+
+Adding properties to the prototype with an object literal is more concise. But there are side effects: it will change the **constructor** property to point to Object. This happens because the constructor property exists on the prototype, not on the object instance.
+
+To avoid this, restore the constructor property to a proper value when overwriting the prototype.
+
+```javascript
+Person.prototype = {
+  sayName(){
+    console.log(this.name);
+  },
+  toString(){
+    return `[Person ${this.name}]`;
+  }
+}
+console.log(kevin.constructor === Person); // -> false
+console.log(kevin.constructor === Object); // -> true
+
+Person.prototype = {
+  // to avoid the side effect
+  constructor: Person,
+  sayName(){
+    console.log(this.name);
+  },
+  toString(){
+    return `[Person ${this.name}]`;
+  }
+}
+console.log(kevin.constructor === Person); // -> true
+```
+
+:collision: The relationships among instances, prototypes and the constructors is that there is no direct link  between the instance and the constructor. So any disruption between the instance and the prototype will also create a disruption between the instance and the constructor.
+
+#### Changing Prototypes
+
+We can manipulate the prototype at any point and have those changes reflected on existing instances.
+
+Notice that even though we freeze or seal the objects, we still can add properties on the prototype and continue extending those objects. Because the [[Prototype]] property is a pointer, and while this pointer is frozen, the object that it points to is not.
+
+```javascript
+const kevin = new Person('kevin');
+const john = new Person('john');
+
+Object.freeze(kevin);
+Person.prototype.cheers = function() {
+  console.log('Hello');
+}
+
+kevin.cheers(); // -> 'Hello'
+john.cheers(); // -> 'Hello'
+```
+
+#### Built-in Object Prototypes
+
+```javascript
+// built-in object
+Array.prototype.sum = function() {
+  return this.reduce((acc, cur) => acc + cur, 0);
+}
+
+// primitive wrapper type object
+String.prototype.capitalize = function() {
+  return this[0].toUpperCase() + this.substring(1);
+}
+```
 
 ### Inheritance
-
 
 
 ### Object Patterns
