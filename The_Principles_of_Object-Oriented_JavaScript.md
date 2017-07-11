@@ -541,7 +541,7 @@ john.favorites.push('Ruby');
 console.log(kevin.favorites); // -> ['JavaScript', 'Ruby']
 ```
 
-Adding properties to the prototype with an object literal is more concise. But there are side effects: it will change the **constructor** property to point to Object. This happens because the constructor property exists on the prototype, not on the object instance.
+Adding properties to the prototype with an object literal is more concise. But there are side effects: it will change the **constructor** property to point to Object. *This happens because the constructor property exists on the prototype, not on the object instance.*
 
 To avoid this, restore the constructor property to a proper value when overwriting the prototype.
 
@@ -607,5 +607,191 @@ String.prototype.capitalize = function() {
 
 ### Inheritance
 
+#### Methods Inherited from Object.prototype
+
+1. valueOf()
+
+  The valueOf() method gets called whenever an operator is used on an object. By default, valueOf() simply returns the object instance. We can always define your own valueOf() method if your objects are intended to be used with operators.
+
+  ```javascript
+  const now = new Date();
+  const earlier = new Date(2009, 12, 3);
+  console.log(now > earlier); // -> true
+  ```
+
+  When the greater-than operator is used, the valueOf() method is called on both objects before the comparison is performed.
+
+2. toString()
+
+  The toString() method is called as a fallback whenever valueOf() returns a reference value instead of a primitive value. It is also implicitly called on primitive values whenever JavaScript is expecting a string.
+  
+#### Modifying Object.prototype
+
+Do not modify built-in object prototypes and that goes double for Object.prototype. Not only it will cause unforeseen consequences but add enumerable properties to Object.prototype, which will show up in for-in loop.
+
+#### Object Inheritance
+
+The simplest type of inheritance is between objects. Object literals have Object.prototype set as their [[prototype]] implicitly, but we can also explicitly  specify [[prototype]] with the Object.create() method.
+
+```javascript
+const person = { name: 'kevin' };
+// is the same as
+const person = Object.create(Object.prototype, {
+    name: {
+      configurable: true,
+      enumerable: true,
+      value: 'kevin',
+      writable: true,
+    }
+  })
+```
+
+Inheriting from other object is much more interesting.
+
+```javascript
+const person1 = {
+  name: 'kevin',
+  sayName(){
+    console.log(this.name);
+  }
+};
+const person2 = Object.create(person1, {
+  name:{
+    configurable: true,
+    enumerable: true,
+    value: 'john',
+    writable: true,
+  }
+});
+
+person1.sayName(); // -> 'kevin'
+person2.sayName(); // -> 'john'
+console.log(person1.hasOwnProperty('sayName')); // -> true
+console.log(person1.isPrototypeOf(person2)); // -> true
+console.log(person2.hasOwnProperty('sayName')); // -> false
+```
+
+The chain ends with Object.prototype, whose [[prototype]] is set to null. We can also create an object with a null [[prototype]] via Object.create().
+
+```javascript
+const nakedObject = Object.create(null);
+console.log('toString' in nakedObject); // -> false
+console.log('valueOf' in nakedObject); // -> false
+```
+
+This nakedObject is an object with no prototype chain. In effect, this object is a completely blank slate with no predefined properties, which make it perfect for creating a **lookup hash** without potential naming collisions with inherited property names.
+
+#### Constructor Inheritance
+
+Object inheritance in JavaScript is also the basis of constructor inheritance.
+
+```javascript
+// If we declare a function
+function MyContructor(){
+  //...
+}
+// What JavaScript engine does behind the scenes
+MyContructor.prototype = Object.create(Object.prototype, {
+  constructor:{
+    configurable: true,
+    enumerable: true,
+    value: MyContructor,
+    writable: true,
+  }
+})
+```
+
+Because the prototype property is writable, we can change the prototype chain by overwriting it.
+
+```javascript
+function Rectangle(length, width) {
+  this.length = length;
+  this.width = width;
+}
+Rectangle.prototype.getArea = function() { return this.length * this.width };
+const rect = new Rectangle(3, 5);
+rect.getArea(); // -> 15
+
+function Square(size) {
+  this.length = size;
+  this.width = size;
+}
+
+/* Beware: We overwrite the Square.prototype with the instance of Rectangle and restore the constructor to Square. */
+Square.prototype = new Rectangle();
+Square.prototype.constructor = Square;
+
+const square = new Square(4);
+square.getArea(); // -> 16
+```
+
+But `Square.prototype` doesn't actually need to be overwritten with a Rectangle object. The Rectangle constructor isn't doing anything that is necessary for Square. In fact, the only relevant part is that Square.prototype needs to somehow link to Rectangle.prototype in order for inheritance to happen.
+
+>That means we can simply use Object.create()!
+
+```javascript
+Square.prototype = Object.create(Rectangle.prototype, {
+  constructor:{
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    value: Square,
+  }
+});
+// or
+Square.prototype = Object.create(Rectangle.prototype);
+Square.prototype.constructor = Square;
+```
+
+#### Constructor Stealing
+
+We can simply call the supertype constructor form the subtype constructor using either call() or apply() to pass in the newly created object. In other words, we can steal the supertype constructor for our own object.
+
+Below is the way to avoid redefining properties from a constructor from which you want to inherit it.
+
+```javascript
+function Rectangle(length, width) {
+  this.length = length;
+  this.width = width;
+}
+
+// Instead of doing this
+function Square(size) {
+  this.length = size;
+  this.width = size;
+}
+// We inherit it from the Rectangle constructor
+function Square(size) {
+  Rectangle.call(this, size, size);
+}
+```
+
+#### Accessing Supertype Methods
+
+It is common to override supertype methods with new functionality in the subtype. But if we still want to access the supertype method? We can directly access the supertype's prototype and use either call() or apply() to execute the method on the subtype object.
+
+```javascript
+function Rectangle(length, width) {
+  this.length = length;
+  this.width = width;
+}
+Rectangle.prototype.toString = function() {
+  return `[Rectangle: ${this.length} X ${this.width}]`;
+}
+
+function Square(size) {
+  Rectangle.call(this, size, size);
+}
+Square.prototype = Object.create(Rectangle.prototype);
+Square.prototype.constructor = Square;
+
+Square.prototype.toString = function() {
+  // here we call the supertype method
+  const code = Rectangle.prototype.toString.call(this);
+  return code.replace('Rectangle', 'Square');
+}
+```
+
+>Prototype chaining works well for inheriting methods from other objects. But we cannot inherit own properties using prototypes. To inherit own properties correctly,  we can use constructor stealing.
 
 ### Object Patterns
