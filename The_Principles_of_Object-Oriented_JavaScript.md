@@ -795,3 +795,88 @@ Square.prototype.toString = function() {
 >Prototype chaining works well for inheriting methods from other objects. But we cannot inherit own properties using prototypes. To inherit own properties correctly,  we can use constructor stealing.
 
 ### Object Patterns
+
+#### The Module Pattern
+
+```javascript
+const person = (function(){
+  // private data variables
+  let age = 30;
+
+  return {
+    // public methods and properties
+    name: 'kevin',
+    getAge() { return age },
+    getOlder() { return ++age },
+  };
+}());
+
+person.age // -> undefined
+person.name // -> 'kevin'
+person.getAge() // -> 30
+person.getOlder() // -> 31
+```
+
+#### Revealing Module Pattern
+
+Arrange all variables and methods on the top of the IIFE, and simply assign them to the returned object.
+
+```javascript
+const person = (function(){
+  // private data variables
+  let age = 30;
+  const name = 'kevin';
+  const getAge = () => age;
+  const getOlder = () => ++age;
+  
+  // assign the variables and methods to be revealed
+  return { name, getAge, getOlder };
+}());
+```
+
+#### Private Members for Constructors
+
+```javascript
+function Person(name) {
+  // private data variables
+  let age = 30;
+
+  this.name = name;
+  this.getAge = function() { return age };
+  this.getOlder = function() { return ++age };
+}
+
+const kevin = new Person('kevin');
+console.log(kevin.age); // -> undefined
+console.log(kevin.name); // -> 'kevin'
+console.log(kevin.getAge()); // -> 30
+console.log(kevin.getOlder()); // -> 31
+
+const john = new Person('john');
+console.log(john.getAge()); // -> 30
+```
+
+Placing methods on an object instance is less efficient than doing so on the prototype, but his is the only approach possible when you want private,    instance-specific data.
+
+If we want private data to be shared across all instances, we can use the hybrid approach that looks like the module pattern but uses a constructor.
+
+```javascript
+const Person = (function() {
+  // everyone share the same age
+  let age = 30;
+  function InnerPerson(name) {
+    this.name = name;
+  }
+  InnerPerson.prototype.getAge = function() { return age; };
+  InnerPerson.prototype.getOlder = function() { return ++age; };
+  return InnerPerson;
+}());
+
+const kevin = new Person('kevin');
+console.log(kevin.getOlder()); // -> 31
+console.log(kevin.getOlder()); // -> 32
+
+const john = new Person('john');
+// share the same variable
+console.log(john.getAge()); // -> 32
+```
