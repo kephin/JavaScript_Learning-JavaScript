@@ -11,3 +11,4 @@
 |6.|[Iterables & Looping](./iterables-looping.md)|
 |7.|[Spread operators & Rest parameters](./spread-operators-and-rest-parameters.md)|
 |8.|[ESLint](./eslint.md)|
+|9.|[Tips for optimizing JavaScript](./Tips_for_Optimizing_JavaScript.md)|
