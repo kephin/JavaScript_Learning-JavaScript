@@ -67,11 +67,11 @@ Use cached values to curtail lengthy, repetitive access to the same data
 ```javascript
 const arr = [1, 2, 3]
 for(let i = 0; i < arr.length; i++) {
-    // ...
+  // ...
 }
 
 for(let i = 0, len = arr.length; i < len; i++) {
-    // ...
+  // ...
 }
 ```
 
@@ -84,12 +84,12 @@ console.time('Test starts')
 
 console.time('1st Test')
 for(let i = 0; i<arr.length; i++) {
-    //...
+  //...
 }
 console.timeEnd('1st Test')
 console.time('2nd Test')
 for(let i = 0; i<arr.length; i++) {
-    //...
+  //...
 }
 console.timeEnd('2nd Test')
 console.timeEnd('Test starts')
@@ -99,24 +99,24 @@ console.timeEnd('Test starts')
 
 ```javascript
 function SpeedTest(testImplement, testParams, repetitions) {
-    this.testImplement = testImplement;
-    this.testParams = testParams;
-    this.repetitions = repetitions || 10000;
-    this.average = 0;
+  this.testImplement = testImplement;
+  this.testParams = testParams;
+  this.repetitions = repetitions || 10000;
+  this.average = 0;
 }
 
 SpeedTest.prototype = {
-    startTest: function(){
-        let beginTime, endTime, sumTimes = 0
-        for(let i = 1, x = this.repetitions; i < x; i++) {
-            beginTime = +new Date()
-            this.testImplement(this.testParams)
-            endTime = +new Date()
-            sumTimes = endTime - beginTime;
-        }
-        this.average = subTimes / this.repetitions
-        return `Average execution across ${this.repetitions}: ${this.average}`
+  startTest: function(){
+    let beginTime, endTime, sumTimes = 0
+    for(let i = 1, x = this.repetitions; i < x; i++) {
+      beginTime = +new Date()
+      this.testImplement(this.testParams)
+      endTime = +new Date()
+      sumTimes = endTime - beginTime;
     }
+    this.average = subTimes / this.repetitions
+    return `Average execution across ${this.repetitions}: ${this.average}`
+  }
 }
 
 const test = new SpeedTest(/*...*/)
